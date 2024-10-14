@@ -15,12 +15,13 @@ struct FilaPrioridade
 {
     Bloco *first;
     Bloco *last;
+    int qtd;
 };
 
-void Vazia(FilaPrioridade *f);
-void Inserir(FilaPrioridade *f, Cliente c);
-void Remover(FilaPrioridade *f);
-void Imprimir(FilaPrioridade *f);
+void VaziaFila(FilaPrioridade *f);
+void InserirFila(FilaPrioridade *f, Cliente c);
+void RemoverFila(FilaPrioridade *f);
+void ImprimirFila(FilaPrioridade *f);
 
 
 #endif

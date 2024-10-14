@@ -12,7 +12,4 @@ void AbrirFecharCaixa(Caixa *caixas);
 void ImprimirFilas(Caixa *caixas);
 void ImprimirStatusCaixas(Caixa *caixas);
 
-void AbrirCaixa();
-void FecharCaixa();
-
 #endif

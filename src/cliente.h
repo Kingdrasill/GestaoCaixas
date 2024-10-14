@@ -2,8 +2,6 @@
 #define LISTA_H
 
 #define NAMESIZE 100
-#define MINPRIO 3
-#define MAXPRIO 1
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -20,6 +18,6 @@ struct Cliente
 };
 
 Cliente CadastrarCliente(char *nome, long long int cpf, short int prioridade, int num_itens);
-void Imprimir(Cliente c);
+void ImprimirCliente(Cliente c);
 
 #endif

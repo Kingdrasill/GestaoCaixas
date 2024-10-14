@@ -10,10 +10,7 @@ Cliente CadastrarCliente(char *nome, long long int cpf, short int prioridade, in
     return novo;
 }
 
-void Imprimir(Cliente c)
+void ImprimirCliente(Cliente c)
 {
-    printf("%s", c.Nome);
-    printf("%lld", c.Cpf);
-    printf("%d", c.Prioridade);
-    printf("%d", c.Num_Itens);
+    printf("%s - %lld - %d - %d\n", c.Nome, c.Cpf, c.Prioridade, c.Num_Itens);
 }
