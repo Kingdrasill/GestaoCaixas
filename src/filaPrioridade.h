@@ -17,4 +17,10 @@ struct FilaPrioridade
     Bloco *last;
 };
 
+void Vazia(FilaPrioridade *f);
+void Inserir(FilaPrioridade *f, Cliente c);
+void Remover(FilaPrioridade *f);
+void Imprimir(FilaPrioridade *f);
+
+
 #endif

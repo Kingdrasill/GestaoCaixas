@@ -12,4 +12,10 @@ struct Caixa{
     FilaPrioridade Fila;
 };
 
+void CadastrarClinte(char *nome, long long int, short int prioridade, int num_itens);
+void AtenderCliente();
+FilaPrioridade FecharCaixa();
+void ImprimirFila();
+void ImprimirStatus();
+
 #endif
