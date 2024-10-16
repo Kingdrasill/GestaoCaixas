@@ -6,10 +6,13 @@
 #include "caixa.h"
 
 void Menu();
-void CadastrarCliente(Caixa *caixas);
-void AtenderCliente(Caixa *caixas);
-void AbrirFecharCaixa(Caixa *caixas);
-void ImprimirFilas(Caixa *caixas);
-void ImprimirStatusCaixas(Caixa *caixas);
+void OptionCadastrarCliente(Caixa *caixas);
+void OptionAtenderCliente(Caixa *caixas);
+void OptionAbrirFecharCaixa(Caixa *caixas);
+void OptionImprimirFilas(Caixa *caixas);
+void OptionImprimirStatusCaixas(Caixa *caixas);
+
+void ClearScreen();
+void Message();
 
 #endif
