@@ -5,6 +5,8 @@
 
 #include "caixa.h"
 
+#include <time.h>
+
 void Menu();
 void OptionCadastrarCliente(Caixa *caixas);
 void OptionAtenderCliente(Caixa *caixas);

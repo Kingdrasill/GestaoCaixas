@@ -2,6 +2,7 @@
 #define LISTA_H
 
 #define NAMESIZE 100
+#define MIN_PRIO 3
 
 #include <stdlib.h>
 #include <stdio.h>
