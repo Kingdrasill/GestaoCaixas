@@ -87,42 +87,46 @@ void OptionCadastrarCliente(Caixa *caixas)
     getchar();
 
     if(c > 0 && c <= NUM_CAIXAS) {
-        char nome[NAMESIZE + 1];
-        printf("\nNome do cliente: ");
-        fgets(nome, sizeof(nome), stdin);
-        nome[strcspn(nome, "\n")] = '\0';
+        if (caixas[c-1].Estado) {
+            char nome[NAMESIZE + 1];
+            printf("\nNome do cliente: ");
+            fgets(nome, sizeof(nome), stdin);
+            nome[strcspn(nome, "\n")] = '\0';
 
-        long long int cpf;
-        while(true) {
-            printf("CPF do cliente (11 digitos): ");
-            scanf("%lld", &cpf);
-            if (cpf < 10000000000 && cpf > 99999999999) {
-                printf("\nCPF Imválido! Deve conter 11 digitos!\n");
+            long long int cpf;
+            while(true) {
+                printf("CPF do cliente (11 digitos): ");
+                scanf("%lld", &cpf);
+                if (cpf < 10000000000 && cpf > 99999999999) {
+                    printf("\nCPF Imválido! Deve conter 11 digitos!\n");
+                }
+                else {
+                    break;;
+                }
             }
-            else {
-                break;;
+
+            short int prioridade;
+            while(true) {
+                printf("Prioridade do cliente (1 - %d): ", MIN_PRIO);
+                scanf("%hd", &prioridade);
+                if (prioridade < 1 && prioridade > MIN_PRIO) {
+                    printf("\nPrioridade Imválida! Deve estar entre 1 - %d!\n", MIN_PRIO);
+                }
+                else {
+                    break;
+                }
             }
+
+            int num_itens;
+            printf("Número de itens no carrinho do cliente: ");
+            scanf("%d", &num_itens);
+
+            CaixaCadastrarCliente(&caixas[c-1], nome, cpf, prioridade, num_itens);
+
+            printf("\nCliente cadastrado!\n");
+        } else {
+            printf("\nO caixa está fechado\n");
         }
-
-        short int prioridade;
-        while(true) {
-            printf("Prioridade do cliente (1 - %d): ", MIN_PRIO);
-            scanf("%hd", &prioridade);
-            if (prioridade < 1 && prioridade > MIN_PRIO) {
-                printf("\nPrioridade Imválida! Deve estar entre 1 - %d!\n", MIN_PRIO);
-            }
-            else {
-                break;
-            }
-        }
-
-        int num_itens;
-        printf("Número de itens no carrinho do cliente: ");
-        scanf("%d", &num_itens);
-
-        CaixaCadastrarCliente(&caixas[c-1], nome, cpf, prioridade, num_itens);
-
-        printf("\nCliente cadastrado!\n");
     }
     else {
         printf("\nOpção de caixa inválida!\n");
@@ -148,9 +152,10 @@ void OptionAtenderCliente(Caixa *caixas)
 void OptionAbrirFecharCaixa(Caixa *caixas)
 {
     int c = 0;
+    int count = 0;
     printf("Qual caixa deseja abrir ou fechar dentre os %d caixas: ", NUM_CAIXAS);
     scanf("%d", &c);
-
+    
     if(c > 0 && c <= NUM_CAIXAS) {
         int o = 0;
         printf("\nDeseja abrir ou fechar o caixa (1 - Abrir / 2 - Fechar): ");
@@ -167,32 +172,43 @@ void OptionAbrirFecharCaixa(Caixa *caixas)
                 }
                 break;
             case 2:
-                if (caixas[c-1].Estado) {
-                    FilaPrioridade clientes = FecharCaixa(&caixas[c-1]);
-                    
-                    Bloco *aux = clientes.first->prox;
-                    while(aux != NULL) {
-                        int index = c-1;
-                        while (index == c-1) {
-                            index = rand() % NUM_CAIXAS;
-                        }
-                        CaixaCadastrarCliente(&caixas[index], aux->cliente.Nome, aux->cliente.Cpf, aux->cliente.Prioridade, aux->cliente.Num_Itens);
-                        aux = aux->prox;
+                for (size_t i = 0; i < NUM_CAIXAS; i++) { 
+                    if(!caixas[i].Estado) {
+                        count += 1;
                     }
-
-                    printf("\nCaixa %d foi fechado!\n", c);
                 }
-                else {
-                    printf("\nCaixa %d já está fechado!\n", c);
+                if (count < NUM_CAIXAS - 1) {
+                    if (caixas[c-1].Estado) {
+                        FilaPrioridade clientes = FecharCaixa(&caixas[c-1]);
+                        
+                        Bloco *aux = clientes.first->prox;
+                        while(aux != NULL) {
+                            bool cont = true;
+                            int index = c-1;
+                            while (cont) {
+                                index = rand() % NUM_CAIXAS;
+                                if (index == c-1 || !caixas[index].Estado) {
+                                    cont = true;
+                                } else {
+                                    cont = false;
+                                }
+                            }
+                            CaixaCadastrarCliente(&caixas[index], aux->cliente.Nome, aux->cliente.Cpf, aux->cliente.Prioridade, aux->cliente.Num_Itens);
+                            aux = aux->prox;
+                        }
+                        printf("\nCaixa %d foi fechado!\n", c);
+                    } else {
+                        printf("\nCaixa %d já está fechado!\n", c);
+                    }
+                } else {
+                    printf("\nCaixa não pode ser fechado, todos os outros caixas estão fechados!\n");
                 }
                 break;
             default:
                 printf("\nOpção Inválida\n");
                 break;
         }
-    }
-    else
-    {
+    } else {
         printf("\nOpção de caixa inválida!\n");
     }
 }
@@ -200,7 +216,7 @@ void OptionAbrirFecharCaixa(Caixa *caixas)
 void OptionImprimirFilas(Caixa *caixas)
 {
     printf("Clientes em Espera\n\n");
-    for (size_t i = 0; i < 5; i++)
+    for (size_t i = 0; i < NUM_CAIXAS; i++)
     {
         CaixaImprimirFila(&caixas[i]);
         printf("\n");
@@ -210,7 +226,7 @@ void OptionImprimirFilas(Caixa *caixas)
 void OptionImprimirStatusCaixas(Caixa *caixas)
 {
     printf("Estados dos caixas\n\n");
-    for (size_t i = 0; i < 5; i++)
+    for (size_t i = 0; i < NUM_CAIXAS; i++)
     {
         ImprimirEstado(&caixas[i]);
         printf("\n");
