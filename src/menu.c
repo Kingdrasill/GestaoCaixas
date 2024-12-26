@@ -97,11 +97,11 @@ void OptionCadastrarCliente(Caixa *caixas)
             while(true) {
                 printf("CPF do cliente (11 digitos): ");
                 scanf("%lld", &cpf);
-                if (cpf < 10000000000 && cpf > 99999999999) {
-                    printf("\nCPF Imválido! Deve conter 11 digitos!\n");
+                if (cpf < 10000000000 || cpf > 99999999999) {
+                    printf("CPF Imválido! Deve conter 11 digitos!\n");
                 }
                 else {
-                    break;;
+                    break;
                 }
             }
 
@@ -177,7 +177,13 @@ void OptionAbrirFecharCaixa(Caixa *caixas)
                         count += 1;
                     }
                 }
+                bool ok = false;
                 if (count < NUM_CAIXAS - 1) {
+                    ok = true;
+                } else if (caixas[c-1].Fila.qtd == 0) {
+                    ok = true;
+                }
+                if (ok) {
                     if (caixas[c-1].Estado) {
                         FilaPrioridade clientes = FecharCaixa(&caixas[c-1]);
                         
@@ -201,7 +207,7 @@ void OptionAbrirFecharCaixa(Caixa *caixas)
                         printf("\nCaixa %d já está fechado!\n", c);
                     }
                 } else {
-                    printf("\nCaixa não pode ser fechado, todos os outros caixas estão fechados!\n");
+                    printf("\nCaixa não pode ser fechado por ser o último caixa aberto e ter clientes em sua fila!\n");
                 }
                 break;
             default:
@@ -225,7 +231,7 @@ void OptionImprimirFilas(Caixa *caixas)
 
 void OptionImprimirStatusCaixas(Caixa *caixas)
 {
-    printf("Estados dos caixas\n\n");
+    printf("Estados dos Caixas\n\n");
     for (size_t i = 0; i < NUM_CAIXAS; i++)
     {
         ImprimirEstado(&caixas[i]);

@@ -3,7 +3,7 @@
 void EsvaziarFila(FilaPrioridade *f)
 {
     f->first = (Bloco*) malloc (sizeof(Bloco));
-	f->last  = f->first;
+	f->last = f->first;
 	f->first->prox = NULL;
     f->qtd = 0;
 }
