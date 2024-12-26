@@ -1,6 +1,6 @@
 #include "filaPrioridade.h"
 
-void VaziaFila(FilaPrioridade *f)
+void EsvaziarFila(FilaPrioridade *f)
 {
     f->first = (Bloco*) malloc (sizeof(Bloco));
 	f->last  = f->first;

@@ -5,7 +5,7 @@ Caixa CadastrarCaixa(int num_id)
     Caixa novo;
     novo.Num_Id = num_id;
     novo.Estado = false;
-    VaziaFila(&novo.Fila);
+    EsvaziarFila(&novo.Fila);
     return novo;
 }
 
@@ -24,14 +24,14 @@ void AtenderCliente(Caixa *c)
 void AbrirCaixa(Caixa *c)
 {
     c->Estado = true;
-    VaziaFila(&c->Fila);
+    EsvaziarFila(&c->Fila);
 }
 
 FilaPrioridade FecharCaixa(Caixa *c)
 {
     FilaPrioridade copia = c->Fila;
     c->Estado = false;
-    VaziaFila(&c->Fila);
+    EsvaziarFila(&c->Fila);
     return copia;
 }
 

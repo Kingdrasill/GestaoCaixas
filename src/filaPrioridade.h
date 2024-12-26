@@ -18,7 +18,7 @@ struct FilaPrioridade
     int qtd;
 };
 
-void VaziaFila(FilaPrioridade *f);
+void EsvaziarFila(FilaPrioridade *f);
 void InserirFila(FilaPrioridade *f, Cliente c);
 void RemoverFila(FilaPrioridade *f);
 void ImprimirFila(FilaPrioridade *f);
